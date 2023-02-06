@@ -19,7 +19,7 @@ Brane Project provides sandbox environment for client-side Web applications, bui
 
 ## Motivation
 
-
+TBD
 
 ## Detailed design
 
@@ -43,11 +43,25 @@ All of this is should be able to be controlled via shims injected by the provide
 
 ## Drawbacks
 
+TBD
+
 ## Other Approaches
 
 ### Isolate JS by embeded JS intepreter
 
+TBD
+
 ### Isolate JS by ShadowRealm API
+
+TBD
+
+## Security Consideration
+
+TBD
+
+## Privacy Consideration
+
+TBD
 
 ## Related Works
 
