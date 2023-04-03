@@ -1,6 +1,6 @@
 ---
 Status: (Draft / Proposed / Accepted / Implemented / Obsoleted)
-Authors: My Name <me@example.org>, AN Other <you@example.org>
+Author: My Name <me@example.org>
 Start Date: (fill me in with today's date, YYYY-MM-DD)
 RFC PR: (leave this empty)
 Related Issues: (leave this empty)
