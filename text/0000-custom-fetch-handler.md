@@ -20,7 +20,7 @@ In the Brane Project, Non-same-origin requests should be checked on the host thr
 
 To solve this problem, we need a way to delegate fetch requests to different contexts. It has a similar purpose to the [Service Worker's fetch handler], but it should be able to customize origin constraints.
 
-A custom fetch handler is basically a [ponyfill](https://github.com/sindresorhus/ponyfill) to servie worker. It has intentionally similar interface to it to get better interopability.
+A custom fetch handler is basically a [ponyfill](https://github.com/sindresorhus/ponyfill) to service worker. It has intentionally similar interface to it to get better interoperability.
 
 ### Interface
 
