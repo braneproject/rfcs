@@ -25,7 +25,7 @@ A custom fetch handler is basically a [ponyfill](https://github.com/sindresorhus
 ### Interface
 
 ```webidl
-interface NewFetchObject {
+interface NewFetchObject : EventTarget {
   [NewObject] Promise<Response> fetch(RequestInfo input, optional RequestInit init = {});
 }
 
@@ -57,6 +57,18 @@ const { fetch } = FetchHandler.register({
 });
 
 globalThis.fetch = fetch;
+```
+
+It can be combined with a `sw.js` script.
+
+```js
+import * as FetchHandler from '@braneproject/fetch-handler';
+
+const fetchObject = FetchHandler.register();
+
+(function (self) {
+  importScripts('sw.js');
+})(fetchObject);
 ```
 
 ### Implementation
