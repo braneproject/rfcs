@@ -27,6 +27,8 @@ A custom fetch handler is basically a [ponyfill](https://github.com/sindresorhus
 ```webidl
 interface NewFetchObject : EventTarget {
   [NewObject] Promise<Response> fetch(RequestInfo input, optional RequestInit init = {});
+
+  attribute EventHandler onfetch;
 }
 
 interface FetchHandlerInit {
