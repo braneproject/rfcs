@@ -20,25 +20,42 @@ In the Brane Project, Non-same-origin requests should be checked on the host thr
 
 To solve this problem, we need a way to delegate fetch requests to different contexts. It has a similar purpose to the [Service Worker's fetch handler], but it should be able to customize origin constraints.
 
-A custom fetch handler is basically a [ponyfill](https://github.com/sindresorhus/ponyfill) to service worker. It has intentionally similar interface to it to get better interoperability.
-
 ### Interface
 
 ```webidl
-interface NewFetchObject : EventTarget {
+interface FetchObject : EventTarget {
   [NewObject] Promise<Response> fetch(RequestInfo input, optional RequestInit init = {});
+  [NewObject] sequence<Promise<any>> drainExtendLifecyclePromises();
 
   attribute EventHandler onfetch;
 }
 
-interface FetchHandlerInit {
+interface FetchObjectInit {
   [NewObject] Promise<Response> fetch(FetchEvent event);
 }
 
-interface FetchHandlerContainer {
-  [NewObject] NewFetchObject register(FetchHandlerInit init = {});
+interface FetchHandlerModule {
+  [NewObject] FetchObject register(FetchObjectInit init = {});
 }
 ```
+
+There are definitions inherited from Web's living standard
+
+- [`EventTarget`](https://dom.spec.whatwg.org/#eventtarget), [`EventHandler`](https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler) definition from the DOM standard
+- [`Response`](https://fetch.spec.whatwg.org/#response-class), [`RequestInfo`](https://fetch.spec.whatwg.org/#requestinfo), [`RequestInit`](https://fetch.spec.whatwg.org/#requestinit) definitions from the Fetch standard
+- [`FetchEvent`](https://w3c.github.io/ServiceWorker/#fetchevent) definition from the Service Worker standard
+
+#### `FetchHandlerModule`
+
+The `register` method creates a new `FetchObject` instance.
+
+#### `FetchObject`
+
+The `FetchObject` is basically a [ponyfill](https://github.com/sindresorhus/ponyfill) to [`ServiceWorkerGlobalScope`](https://w3c.github.io/ServiceWorker/#serviceworkerglobalscope-interface). It has intentionally similar interface to it to get better interoperability.
+
+The `fetch` method should be called for making network request same as the Fetch API, but can be intercepted by event listeners.
+
+The `drainExtendLifecyclePromises` method should return promises passed by `event.wailUntil(p)` inside of event listeners, and cleanup.
 
 ### Usage
 
