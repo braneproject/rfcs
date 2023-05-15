@@ -25,6 +25,7 @@ To solve this problem, we need a way to delegate fetch requests to different con
 ```webidl
 interface FetchObject : EventTarget {
   [NewObject] Promise<Response> fetch(RequestInfo input, optional RequestInit init = {});
+  boolean sendBeacon(USVString url, optional BodyInit? data = null);
   [NewObject] sequence<Promise<any>> drainExtendLifecyclePromises();
 
   attribute EventHandler onfetch;
@@ -53,9 +54,11 @@ The `register` method creates a new `FetchObject` instance.
 
 The `FetchObject` is basically a [ponyfill](https://github.com/sindresorhus/ponyfill) to [`ServiceWorkerGlobalScope`](https://w3c.github.io/ServiceWorker/#serviceworkerglobalscope-interface). It has intentionally similar interface to it to get better interoperability.
 
-The `fetch` method should be called for making network request same as the Fetch API, but can be intercepted by event listeners.
+The `fetch` method makes network request same as the [Fetch API], but can be intercepted by event listeners. It should append the result promise to the extend lifecycle promises if `{ keepalive: true }` passed.
 
-The `drainExtendLifecyclePromises` method should return promises passed by `event.wailUntil(p)` inside of event listeners, and cleanup.
+The `sendBeacon` method transmits data to url same as the [Beacon API], but can be intercepted by event listeners. It should append the result promise to the extend lifecycle promises.
+
+The `drainExtendLifecyclePromises` method should returns extend lifecycle promises made by `event.waitUntil(...)`, `sendBeacon(...)`, fetch with `{ keepalive: true }`, etc. And cleanup the promises.
 
 ### Usage
 
@@ -95,4 +98,5 @@ const fetchObject = FetchHandler.register();
 TBD
 
 [Fetch API]: https://fetch.spec.whatwg.org/#fetch-method
+[Beacon API]: https://w3c.github.io/beacon/#sendbeacon-method
 [Service Worker's fetch handler]: https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/fetch_event
