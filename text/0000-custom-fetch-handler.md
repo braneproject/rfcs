@@ -43,7 +43,7 @@ interface FetchHandlerModule {
 There are definitions inherited from Web's living standard
 
 - [`EventTarget`](https://dom.spec.whatwg.org/#eventtarget), [`EventHandler`](https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler) definition from the DOM standard
-- [`Response`](https://fetch.spec.whatwg.org/#response-class), [`RequestInfo`](https://fetch.spec.whatwg.org/#requestinfo), [`RequestInit`](https://fetch.spec.whatwg.org/#requestinit) definitions from the Fetch standard
+- [`Response`](https://fetch.spec.whatwg.org/#response-class), [`RequestInfo`](https://fetch.spec.whatwg.org/#requestinfo), [`RequestInit`](https://fetch.spec.whatwg.org/#requestinit), [`BodyInit`](https://fetch.spec.whatwg.org/#bodyinit) definitions from the Fetch standard
 - [`FetchEvent`](https://w3c.github.io/ServiceWorker/#fetchevent) definition from the Service Worker standard
 
 #### `FetchHandlerModule`
