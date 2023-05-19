@@ -59,7 +59,7 @@ The `register` method creates a new `FetchObject` instance.
 
 #### `FetchObject`
 
-The `FetchObject` is basically a [ponyfill](https://github.com/sindresorhus/ponyfill) to [`ServiceWorkerGlobalScope`](https://w3c.github.io/ServiceWorker/#serviceworkerglobalscope-interface). It has intentionally similar interface to it to get better interoperability.
+The `FetchObject` is basically a [ponyfill](https://github.com/sindresorhus/ponyfill) to [`ServiceWorkerGlobalScope`](https://w3c.github.io/ServiceWorker/#serviceworkerglobalscope-interface). It has intentionally subset interface to it to get better interoperability with existing tools for service worker.
 
 The `fetch` method makes as same network request as the [Fetch API], but can be intercepted by the `fetch` event listeners. It should append the result promise to the extend lifecycle promises if `{ keepalive: true }` passed.
 
