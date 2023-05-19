@@ -14,7 +14,9 @@ This proposes a way to customize the [Fetch API]'s behavior based on well-known 
 
 ## Motivation
 
-In the Brane Project, Non-same-origin requests should be checked on the host thread, but cannot be intercepted since they operate on different context. (every miniapps have its own context)
+In the Brane Project, every network requests should be checked on the host, but cannot be intercepted since they operate on different context (cross-origin).
+
+This proposal is useful in many situations. When user want to control requests by cross-origin iframes/workers on the host, when creating virtual requests that operate on HTTP semantics, etc.
 
 ## Detailed design
 
