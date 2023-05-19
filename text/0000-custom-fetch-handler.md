@@ -26,6 +26,10 @@ To solve this problem, we need a way to delegate fetch requests to different con
 interface FetchObject : EventTarget {
   [NewObject] Promise<Response> fetch(RequestInfo input, optional RequestInit init = {});
   boolean sendBeacon(USVString url, optional BodyInit? data = null);
+
+  const XMLHttpRequest XMLHttpRequest;
+
+
   [NewObject] sequence<Promise<any>> drainExtendLifecyclePromises();
 
   attribute EventHandler onfetch;
@@ -45,6 +49,7 @@ There are definitions inherited from Web's living standard
 - [`EventTarget`](https://dom.spec.whatwg.org/#eventtarget), [`EventHandler`](https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler) definition from the DOM standard
 - [`Response`](https://fetch.spec.whatwg.org/#response-class), [`RequestInfo`](https://fetch.spec.whatwg.org/#requestinfo), [`RequestInit`](https://fetch.spec.whatwg.org/#requestinit), [`BodyInit`](https://fetch.spec.whatwg.org/#bodyinit) definitions from the Fetch standard
 - [`FetchEvent`](https://w3c.github.io/ServiceWorker/#fetchevent) definition from the Service Worker standard
+- [`XMLHttpRequest`](https://xhr.spec.whatwg.org/#interface-xmlhttprequest) definition from the XHR standard
 
 #### `FetchHandlerModule`
 
@@ -54,9 +59,11 @@ The `register` method creates a new `FetchObject` instance.
 
 The `FetchObject` is basically a [ponyfill](https://github.com/sindresorhus/ponyfill) to [`ServiceWorkerGlobalScope`](https://w3c.github.io/ServiceWorker/#serviceworkerglobalscope-interface). It has intentionally similar interface to it to get better interoperability.
 
-The `fetch` method makes network request same as the [Fetch API], but can be intercepted by event listeners. It should append the result promise to the extend lifecycle promises if `{ keepalive: true }` passed.
+The `fetch` method makes as same network request as the [Fetch API], but can be intercepted by the `fetch` event listeners. It should append the result promise to the extend lifecycle promises if `{ keepalive: true }` passed.
 
-The `sendBeacon` method transmits data to url same as the [Beacon API], but can be intercepted by event listeners. It should append the result promise to the extend lifecycle promises.
+The `sendBeacon` method transmits data to url same as the [Beacon API], but can be intercepted by the `fetch` event listener. It should append the result promise to the extend lifecycle promises.
+
+The `XMLHttpRequest` is a constructor for [XMLHttpRequest API] that initiate a network request, but can be intercepted by the the `fetch` event listener. Since the synchronous mode cannot be implemented in a single thread context, the constructor must throw a `TypeError` when the flag is set.
 
 The `drainExtendLifecyclePromises` method should returns extend lifecycle promises made by `event.waitUntil(...)`, `sendBeacon(...)`, fetch with `{ keepalive: true }`, etc. And cleanup the promises.
 
@@ -99,4 +106,5 @@ TBD
 
 [Fetch API]: https://fetch.spec.whatwg.org/#fetch-method
 [Beacon API]: https://w3c.github.io/beacon/#sendbeacon-method
+[XMLHttpRequest API]: https://xhr.spec.whatwg.org/#interface-xmlhttprequest
 [Service Worker's fetch handler]: https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/fetch_event
